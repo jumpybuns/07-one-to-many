@@ -2,7 +2,7 @@ const request = require('supertest');
 const app = require('../lib/app.js');
 const pool = require('../lib/utils/pool.js');
 const fs = require('fs');
-// const Planets = require('../lib/models/Planets.js');
+const Planet = require('../lib/models/Planets.js');
 
 
 describe('app tests', () => {
@@ -13,7 +13,7 @@ describe('app tests', () => {
     return pool.query.end();
   });
 
-  it('POST a planet to the universe', async() => {
+  it('POST a planet to the solar system', async() => {
     const response = await request(app)
       .post('/api/planets')
       .send({
@@ -31,5 +31,20 @@ describe('app tests', () => {
     });
   });
 
+  it('GET all the planets from our solar system', async() => {
+    const planet = await Planet.insert({
+      name: 'Venus',
+      size: 3760,
+      fact: 'hottest planet'
+    });
+
+    const response = await request(app)
+
+      .get('/api/planets');
+
+    expect(response.body).toEqual([planet]);
+
+  });
+    
 
 });

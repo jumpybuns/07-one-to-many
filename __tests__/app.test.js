@@ -3,6 +3,8 @@ const app = require('../lib/app.js');
 const pool = require('../lib/utils/pool.js');
 const fs = require('fs');
 const Planet = require('../lib/models/Planets.js');
+const Moon = require('../lib/models/Moons.js');
+
 
 
 describe('app tests', () => {
@@ -45,6 +47,26 @@ describe('app tests', () => {
     expect(response.body).toEqual([planet]);
 
   });
-    
 
+  it('GET a single planet by id', async() => {
+    const planet = await Planet.insert({
+      name: 'Venus',
+      size: 3760,
+      fact: 'hottest planet'
+    });
+    
+    const moons = await Promise.all([
+      { name: 'Phobos', planetId: planet.id },
+      { name: 'Deimos', planetId: planet.id }
+    ].map(moon => Moon.insert(moon)));
+
+    const response = await request(app)
+      .get(`/api/planets/${planet.id}`);
+
+    expect(response.body).toEqual({
+      ...planet,
+      moons: expect.arrayContaining(moons)
+    });
+    
+  });
 });

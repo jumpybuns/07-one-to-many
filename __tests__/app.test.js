@@ -69,4 +69,26 @@ describe('app tests', () => {
     });
     
   });
+
+  it('PUT to update the info on a planet', async() => {
+    const planet = await Planet.insert({
+      name: 'Venus',
+      size: 3760,
+      fact: 'hottest planet'
+    });
+
+    const response = await request(app)
+      .put(`/api/planets/${planet.id}`)
+      .send({
+        name: 'Venus',
+        size: 3760,
+        fact: 'stupidest planet'
+      });
+
+    expect(response.body).toEqual({
+      name: 'Venus',
+      size: 3760,
+      fact: 'stupidest planet'
+    });
+  });
 });

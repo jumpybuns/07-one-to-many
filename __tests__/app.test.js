@@ -80,12 +80,14 @@ describe('app tests', () => {
     const response = await request(app)
       .put(`/api/planets/${planet.id}`)
       .send({
+        id: '1',
         name: 'Venus',
         size: 3760,
         fact: 'stupidest planet'
       });
 
     expect(response.body).toEqual({
+      id: '1',
       name: 'Venus',
       size: 3760,
       fact: 'stupidest planet'

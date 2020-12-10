@@ -93,4 +93,17 @@ describe('app tests', () => {
       fact: 'stupidest planet'
     });
   });
+
+  it('DELETE a planet from our solar system, you monster', async() => {
+    const planet = await Planet.insert({
+      name: 'Venus',
+      size: 3760,
+      fact: 'stupidest planet' });
+
+    const response = await request(app)
+      .delete(`/api/planets/${planet.id}`);
+
+
+    expect(response.body).toEqual(planet);
+  });
 });

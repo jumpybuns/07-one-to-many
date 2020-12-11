@@ -11,6 +11,6 @@ CREATE TABLE planets (
 CREATE TABLE moons (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name TEXT NOT NULL,
-    planet_id BIGINT REFERENCES planets(id)
+    planet_id BIGINT NOT NULL REFERENCES planets(id)
 
-)
+);

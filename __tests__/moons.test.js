@@ -61,5 +61,78 @@ describe('moons tests', () => {
     expect(response.body).toHaveLength(moons.length);
   });
 
+  it('GET a single moon by id', async() => {
+    const planet = await Planet.insert({
+      name: 'Venus',
+      size: 3760,
+      fact: 'hottest planet'
+    });
+
+    const moon = await Moon.insert({
+      name: 'Titan',
+      planetId: planet.id
+    });
+
+    const response = await request(app)
+      .get(`/api/moons/${moon.id}`);
+
+    expect(response.body).toEqual({
+      id: '1',
+      name: 'Titan',
+      planetId: planet.id
+    });
+  });
+
+  it('PUT updates the moon information', async() => {
+    const planet = await Planet.insert({
+      name: 'Venus',
+      size: 3760,
+      fact: 'hottest planet'
+    });
+  
+    const moon = await Moon.insert({
+      name: 'Titan',
+      planetId: planet.id
+    });
+
+    const response = await request(app)
+      .put(`/api/moons/${moon.id}`)
+      .send({
+        name: 'Teetan',
+        planetId: planet.id
+      });
+
+    expect(response.body).toEqual({
+      id: moon.id,
+      name: 'Teetan',
+      planetId: planet.id
+    });
+  
+  });
+
+  it('DELETE a moon from the solar system you monster', async() => {
+    const planet = await Planet.insert({
+      name: 'Venus',
+      size: 3760,
+      fact: 'hottest planet'
+    });
+    
+    const moon = await Moon.insert({
+      name: 'Titan',
+      planetId: planet.id
+    });
+
+    const response = await request(app)
+      .delete(`/api/moons/${moon.id}`);
+    
+    expect(response.body).toEqual({
+      id: '1',
+      name: 'Titan',
+      planetId: planet.id
+    });
+
+  });
+  
+
    
 });

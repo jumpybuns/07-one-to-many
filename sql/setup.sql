@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS planets cascade;
+DROP TABLE IF EXISTS planets CASCADE;
 DROP TABLE IF EXISTS moons;
 
 CREATE TABLE planets (

@@ -98,13 +98,13 @@ describe('moons tests', () => {
     const response = await request(app)
       .put(`/api/moons/${moon.id}`)
       .send({
-        name: 'Teetan',
-        planetId: planet.id
+        name: 'the Moon',
+        planetId: '1'
       });
 
     expect(response.body).toEqual({
       id: moon.id,
-      name: 'Teetan',
+      name: 'the Moon',
       planetId: planet.id
     });
   
@@ -126,7 +126,7 @@ describe('moons tests', () => {
       .delete(`/api/moons/${moon.id}`);
     
     expect(response.body).toEqual({
-      id: '1',
+      id: moon.id,
       name: 'Titan',
       planetId: planet.id
     });

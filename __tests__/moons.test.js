@@ -7,7 +7,8 @@ const Moon = require('../lib/models/Moons.js');
 
 
 describe('moons tests', () => {
-  beforeEach(() => { pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
+  beforeEach(() =>  { 
+    return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
     
   });
     
@@ -98,8 +99,7 @@ describe('moons tests', () => {
     const response = await request(app)
       .put(`/api/moons/${moon.id}`)
       .send({
-        name: 'the Moon',
-        planetId: '1'
+        name: 'the Moon'
       });
 
     expect(response.body).toEqual({
